@@ -2,7 +2,7 @@ import os
 import random
 import logging
 from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # 로깅 설정
 logging.basicConfig(
@@ -24,7 +24,7 @@ DINGDONG_RESPONSES = [
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Start 명령어 핸들러"""
     await update.message.reply_text(
-        '안녕하세요! /띵동 명령어를 사용해보세요!'
+        '안녕하세요! !띵동 명령어를 사용해보세요!'
     )
 
 async def dingdong(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -54,7 +54,7 @@ def main() -> None:
     
     # 명령어 핸들러 등록
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("띵동", dingdong))
+    application.add_handler(MessageHandler(filters.Regex(r'^!띵동$'), dingdong))
     
     # 봇 시작
     logger.info("봇이 시작되었습니다...")
